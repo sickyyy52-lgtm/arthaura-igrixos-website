@@ -1,0 +1,384 @@
+@import "tailwindcss";
+
+/* ============================================================
+   ARTHAURA DESIGN TOKENS
+   Concept: "Editorial Intelligence" — paper-stock editorial
+   surfaces, petroleum-ink environments, oxidised copper accent.
+   ============================================================ */
+
+@theme {
+  --color-paper: #f3f0e9;
+  --color-chalk: #fbf9f5;
+  --color-sand: #e7e1d4;
+  --color-ink: #0c1413;
+  --color-petrol: #0e1f1d;
+  --color-petrol-2: #15302c;
+  --color-graphite: #1d2422;
+  --color-copper: #c2552e;
+  --color-copper-soft: #e08a5f;
+  --color-mineral: #2f6f68;
+  --color-mineral-soft: #7fb3aa;
+  --color-muted: #5f5a50;
+  --color-muted-dark: #9aa8a2;
+
+  --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Inter Tight", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+:root {
+  --rule: color-mix(in srgb, #0c1413 14%, transparent);
+  --rule-dark: color-mix(in srgb, #fbf9f5 16%, transparent);
+  --shell-x: clamp(1.1rem, 4vw, 4.5rem);
+  color-scheme: light;
+}
+
+* {
+  min-width: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-copper);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-copper);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- Layout ---------- */
+.shell {
+  width: 100%;
+  max-width: 1480px;
+  margin-inline: auto;
+  padding-inline: var(--shell-x);
+}
+.shell-narrow {
+  width: 100%;
+  max-width: 1040px;
+  margin-inline: auto;
+  padding-inline: var(--shell-x);
+}
+
+/* ---------- Typography ---------- */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+}
+.display em {
+  font-style: italic;
+}
+.grotesk-tight {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+.label {
+  font-family: var(--font-mono);
+  font-size: clamp(0.62rem, 0.78vw, 0.72rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.t-hero {
+  font-size: clamp(2.65rem, 8.2vw, 7.6rem);
+}
+.t-xl {
+  font-size: clamp(2.1rem, 5.4vw, 4.6rem);
+}
+.t-lg {
+  font-size: clamp(1.65rem, 3.3vw, 2.75rem);
+}
+.t-body {
+  font-size: clamp(1rem, 1.12vw, 1.16rem);
+  line-height: 1.6;
+}
+.t-lead {
+  font-size: clamp(1.08rem, 1.5vw, 1.42rem);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* ---------- Rules / dividers ---------- */
+.rule {
+  height: 1px;
+  background: var(--rule);
+}
+.on-dark .rule {
+  background: var(--rule-dark);
+}
+
+/* ---------- Motion: reveal system ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 1s var(--ease-out-expo);
+  transition-delay: var(--d, 0ms);
+}
+[data-reveal="mask"] {
+  clip-path: inset(0 0 100% 0);
+  transform: none;
+  transition:
+    opacity 0.7s var(--ease-soft),
+    clip-path 1.1s var(--ease-out-expo);
+}
+[data-reveal="scale"] {
+  transform: translate3d(0, 26px, 0) scale(0.975);
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0 0);
+}
+
+/* line-by-line headline reveal */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.line-mask > span {
+  display: block;
+  transform: translate3d(0, 110%, 0);
+  transition: transform 1.05s var(--ease-out-expo);
+  transition-delay: var(--d, 0ms);
+}
+.is-in .line-mask > span,
+.line-mask.is-in > span {
+  transform: none;
+}
+
+/* ---------- Link & button interactions ---------- */
+.link-mask {
+  position: relative;
+  display: inline-block;
+}
+.link-mask::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s var(--ease-out-expo);
+}
+.link-mask:hover::after,
+.link-mask[data-active="true"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  border: 1px solid transparent;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.4s var(--ease-soft), border-color 0.4s var(--ease-soft);
+  cursor: pointer;
+}
+.btn > .btn-fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: translate3d(0, 101%, 0);
+  transition: transform 0.55s var(--ease-out-expo);
+}
+.btn:hover > .btn-fill {
+  transform: none;
+}
+.btn-primary {
+  background: var(--color-ink);
+  color: var(--color-chalk);
+}
+.btn-primary > .btn-fill {
+  background: var(--color-copper);
+}
+.on-dark .btn-primary {
+  background: var(--color-chalk);
+  color: var(--color-ink);
+}
+.on-dark .btn-primary:hover {
+  color: var(--color-chalk);
+}
+.on-dark .btn-primary > .btn-fill {
+  background: var(--color-copper);
+}
+.btn-ghost {
+  border-color: var(--rule);
+  color: var(--color-ink);
+}
+.btn-ghost:hover {
+  color: var(--color-chalk);
+  border-color: var(--color-ink);
+}
+.btn-ghost > .btn-fill {
+  background: var(--color-ink);
+}
+.on-dark .btn-ghost {
+  border-color: var(--rule-dark);
+  color: var(--color-chalk);
+}
+.on-dark .btn-ghost:hover {
+  color: var(--color-ink);
+  border-color: var(--color-chalk);
+}
+.on-dark .btn-ghost > .btn-fill {
+  background: var(--color-chalk);
+}
+.btn-arrow {
+  transition: transform 0.45s var(--ease-out-expo);
+}
+.btn:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* ---------- Texture ---------- */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
+}
+
+.hairline-grid {
+  background-image: linear-gradient(to right, var(--rule) 1px, transparent 1px);
+  background-size: calc(100% / 6) 100%;
+}
+.on-dark .hairline-grid {
+  background-image: linear-gradient(to right, var(--rule-dark) 1px, transparent 1px);
+}
+
+/* ---------- Animated SVG primitives ---------- */
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+@keyframes node-pulse {
+  0%, 100% {
+    opacity: 0.35;
+    r: 3;
+  }
+  50% {
+    opacity: 1;
+    r: 4.6;
+  }
+}
+@keyframes slow-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes drift-y {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes bar-rise {
+  from {
+    transform: scaleY(0.25);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(220%); }
+}
+@keyframes caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.flow {
+  stroke-dasharray: 5 9;
+  animation: dash-flow 14s linear infinite;
+}
+.flow-fast {
+  stroke-dasharray: 3 14;
+  animation: dash-flow 7s linear infinite;
+}
+.pulse-node {
+  animation: node-pulse 3.6s ease-in-out infinite;
+}
+.drift {
+  animation: drift-y 9s ease-in-out infinite;
+}
+
+/* marquee */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+  .line-mask > span {
+    transform: none !important;
+  }
+}
