@@ -124,9 +124,8 @@ export function ArchitectureMap({ className }: { className?: string }) {
         {LAYERS.map((l, i) => (
           <div
             key={l.id}
-            data-reveal="mask"
             style={{ ["--d" as string]: `${i * 110}ms` }}
-            className="group relative grid grid-cols-1 gap-4 bg-petrol px-5 py-6 transition-colors duration-500 hover:bg-petrol-2 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:px-8"
+            className="architecture-layer group relative grid grid-cols-1 gap-4 bg-petrol px-5 py-6 transition-colors duration-500 hover:bg-petrol-2 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:px-8"
           >
             <div className="label text-copper-soft">{l.id}</div>
             <div className="flex flex-col gap-1">
